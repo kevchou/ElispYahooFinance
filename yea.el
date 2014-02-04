@@ -9,16 +9,22 @@
 ;; Symbol, ask, bid, 52 week low, 52 week high, % change from 200 day mavg
 ;;
 ;; Yahoo format described here: http://www.gummy-stuff.org/Yahoo-data.htm
-;;
-;; s = symbol
-;; b2 = ask real-time
-;; b3 = bid real-time
-;; j = 52 week low
-;; k = 52 week high
+
+(setq symbol          "s")
+(setq price           "l1")
+(setq ask             "b2")
+(setq bid             "b3")
+(setq change-raw      "c")
+(setq last-trade-date "d1")
+(setq last-trade-time "t1")
+(setq name            "n")
 
 (defun get-yahoo-stats()
   (interactive)
-  (let ((quotes (get-quotes '("VUN.TO" "VCN.TO" "IMG.TO" "SGR.TO" "SU.TO" "CSIQ") "sl1b2b3cd1n")))
+  (let ((quotes (get-quotes
+                 '("VUN.TO" "VCN.TO" "IMG.TO" "SGR.TO" "SU.TO" "CSIQ")
+                 (concat symbol price ask bid change-raw last-trade-date last-trade-time name)
+                 )))
     (show-quotes quotes)))
 
 (defun show-quotes(quotes)
