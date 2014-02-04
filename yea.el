@@ -2,11 +2,10 @@
 ;;
 ;; Yahoo Input:
 ;;   http://download.finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG&f=sb2b3jkm6
-;; Yahoo Output:
-;;  "AAPL",211.98,211.82,78.20,215.59,+17.90%
+;; Yahoo Output: (.csv file)
 ;;  "GOOG",602.94,601.69,282.75,629.51,+18.27%
 ;;
-;; Symbol, ask, bid, 52 week low, 52 week high, % change from 200 day mavg
+;; More Info: http://www.gummy-stuff.org/Yahoo-data.htm
 ;;
 ;; Yahoo format described here: http://www.gummy-stuff.org/Yahoo-data.htm
 
@@ -39,7 +38,7 @@
            (change-percent (second (split-string change-raw " - ")))
            (last-trade-date (remove-quotes (nth 5 quote)))
            (name (remove-quotes (nth 6 quote))))
-    (insert name "(" symbol ")")
+    (insert name " (" symbol ")")
     (newline-and-indent)
     (insert "Price: $" price)
     (newline-and-indent)
@@ -53,8 +52,9 @@
     (newline-and-indent))))
 
 (defun remove-quotes (quoted-string)
-  "Removes surrounding quotes from a string"
-  (replace-regexp-in-string "\"" "" quoted-string))
+  "Removes quotes from a string"
+  (setq quoted-string (replace-regexp-in-string "\"" "" quoted-string))
+  (replace-regexp-in-string "\r\n" "" quoted-string))
 
 
 (defun get-quotes(tickers field-string)
