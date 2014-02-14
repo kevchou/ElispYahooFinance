@@ -7,7 +7,12 @@
 ;;
 ;; More Info: http://www.gummy-stuff.org/Yahoo-data.htm
 ;;
-;; Yahoo format described here: http://www.gummy-stuff.org/Yahoo-data.htm
+
+;; Run:
+;; M-x get-yahoo-stats
+;;  to get the stock information
+
+;; TODO Comment everything.
 
 (setq symbol          "s")
 (setq price           "l1")
