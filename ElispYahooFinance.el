@@ -32,6 +32,7 @@
                  )))
     (show-quotes quotes)))
 
+
 (defun show-quotes(quotes)
   (erase-buffer)
   (dolist (quote quotes)
@@ -90,3 +91,25 @@ from Yahoo, and parses them"
       (setf res (cons  (split-string (thing-at-point 'line) ",") res))
       (forward-line 1))
     (reverse res)))
+
+
+
+;;; FUNCTION TO SCROLL MESSAGE.. want to implement it to scroll daily change
+(defun scroll (msg)
+  (let* (msg-len l-bound r-bound buffer sub)
+      (setq msg-len (length msg))
+      (setq max-len (window-width (selected-window)))
+      (setq l-bound 0)  ;; left boundary of string
+      (setq r-bound 1)  ;; right boundary of string
+      (while (<= r-bound msg-len)
+        (if (> (- r-bound l-bound) max-len)
+            (setq l-bound (+ l-bound 1))) ;; move over left boundary
+
+        (setq sub (substring msg l-bound r-bound))  ;;; the portion of the string we are to display:
+        (setq buffer (make-string (- max-len (length sub)) 32)) ;;; leading white space:
+        (setq buffer (concat buffer sub))  ;;; put them together
+        (message buffer)   ;;; display it
+        (sit-for .07)
+        (setq r-bound (+ r-bound 1)))))
+
+(scroll "This is my test message...")
