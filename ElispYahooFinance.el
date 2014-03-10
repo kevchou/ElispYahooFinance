@@ -8,30 +8,113 @@
 ;; More Info: http://www.gummy-stuff.org/Yahoo-data.htm
 ;;
 
-;; Run:
+;; After evaluating the buffer, use:
 ;; M-x get-yahoo-stats
-;;  to get the stock information
+;; to get the stock information
 
-;; TODO Comment everything.
 
-(setq symbol          "s")
-(setq price           "l1")
-(setq ask             "b2")
-(setq bid             "b3")
-(setq change-raw      "c")
-(setq last-trade-date "d1")
-(setq last-trade-time "t1")
-(setq name            "n")
+;; Tickers of interest
+(setq tickers '("AAPL" "GOOG" "MSFT"))
+
+
+;; mnemonics for yahoo finance API
+(setq AfterHoursChangeRealtime                     "c8")
+(setq AnnualizedGain                               "g3")
+(setq Ask                                          "a0")
+(setq AskRealtime                                  "b2")
+(setq AskSize                                      "a5")
+(setq AverageDailyVolume                           "a2")
+(setq Bid                                          "b0")
+(setq BidRealtime                                  "b3")
+(setq BidSize                                      "b6")
+(setq BookValuePerShare                            "b4")
+(setq Change                                       "c1")
+(setq Change                                       "c0")
+(setq ChangeFromFiftydayMovingAverage              "m7")
+(setq ChangeFromTwoHundreddayMovingAverage         "m5")
+(setq ChangeFromYearHigh                           "k4")
+(setq ChangeFromYearLow                            "j5")
+(setq ChangeInPercent                              "p2")
+(setq ChangeInPercentRealtime                      "k2")
+(setq ChangeRealtime                               "c6")
+(setq Commission                                   "c3")
+(setq Currency                                     "c4")
+(setq DaysHigh                                     "h0")
+(setq DaysLow                                      "g0")
+(setq DaysRange                                    "m0")
+(setq DaysRangeRealtime                            "m2")
+(setq DaysValueChange                              "w1")
+(setq DaysValueChangeRealtime                      "w4")
+(setq DividendPayDate                              "r1")
+(setq TrailingAnnualDividendYield                  "d0")
+(setq TrailingAnnualDividendYieldInPercent         "y0")
+(setq DilutedEPS                                   "e0")
+(setq EBITDA                                       "j4")
+(setq EPSEstimateCurrentYear                       "e7")
+(setq EPSEstimateNextQuarter                       "e9")
+(setq EPSEstimateNextYear                          "e8")
+(setq ExDividendDate                               "q0")
+(setq FiftydayMovingAverage                        "m3")
+(setq SharesFloat                                  "f6")
+(setq HighLimit                                    "l2")
+(setq HoldingsGain                                 "g4")
+(setq HoldingsGainPercent                          "g1")
+(setq HoldingsGainPercentRealtime                  "g5")
+(setq HoldingsGainRealtime                         "g6")
+(setq HoldingsValue                                "v1")
+(setq HoldingsValueRealtime                        "v7")
+(setq LastTradeDate                                "d1")
+(setq LastTradePriceOnly                           "l1")
+(setq LastTradeRealtimeWithTime                    "k1")
+(setq LastTradeSize                                "k3")
+(setq LastTradeTime                                "t1")
+(setq LastTradeWithTime                            "l0")
+(setq LowLimit                                     "l3")
+(setq MarketCapitalization                         "j1")
+(setq MarketCapRealtime                            "j3")
+(setq MoreInfo                                     "i0")
+(setq Name                                         "n0")
+(setq Notes                                        "n4")
+(setq OneyrTargetPrice                             "t8")
+(setq Open                                         "o0")
+(setq OrderBookRealtime                            "i5")
+(setq PEGRatio                                     "r5")
+(setq PERatio                                      "r0")
+(setq PERatioRealtime                              "r2")
+(setq PercentChangeFromFiftydayMovingAverage       "m8")
+(setq PercentChangeFromTwoHundreddayMovingAverage  "m6")
+(setq ChangeInPercentFromYearHigh                  "k5")
+(setq PercentChangeFromYearLow                     "j6")
+(setq PreviousClose                                "p0")
+(setq PriceBook                                    "p6")
+(setq PriceEPSEstimateCurrentYear                  "r6")
+(setq PriceEPSEstimateNextYear                     "r7")
+(setq PricePaid                                    "p1")
+(setq PriceSales                                   "p5")
+(setq Revenue                                      "s6")
+(setq SharesOwned                                  "s1")
+(setq SharesOutstanding                            "j2")
+(setq ShortRatio                                   "s7")
+(setq StockExchange                                "x0")
+(setq Symbol                                       "s0")
+(setq TickerTrend                                  "t7")
+(setq TradeDate                                    "d2")
+(setq TradeLinks                                   "t6")
+(setq TradeLinksAdditional                         "f0")
+(setq TwoHundreddayMovingAverage                   "m4")
+(setq Volume                                       "v0")
+(setq YearHigh                                     "k0")
+(setq YearLow                                      "j0")
+(setq YearRange                                    "w0")
 
 
 (defun get-yahoo-stats()
   (interactive)
   (let ((quotes (get-quotes
-                 '("VUN.TO" "VCN.TO" "IMG.TO" "SGR.TO" "SU.TO" "CSIQ")
-                 (concat symbol price ask bid change-raw last-trade-date last-trade-time name)
+                 tickers
+                 (concat Symbol LastTradePriceOnly Ask Bid Change LastTradeDate LastTradeTime Name)
                  )))
     (show-quotes quotes)))
-
 
 (defun show-quotes(quotes)
   (erase-buffer)
@@ -62,7 +145,6 @@
   "Removes quotes from a string"
   (setq quoted-string (replace-regexp-in-string "\"" "" quoted-string))
   (replace-regexp-in-string "\r\n" "" quoted-string))
-
 
 (defun get-quotes(tickers field-string)
   "Given a list of ticker names and a string of fields to return as above, this grabs them
