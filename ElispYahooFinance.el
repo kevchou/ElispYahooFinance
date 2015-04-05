@@ -153,6 +153,7 @@ from Yahoo, and parses them"
     (switch-to-buffer results-buffer)
     (parse-quote-buffer results-buffer)))
 
+
 (defun get-price-url (tickers field-string)
   "Set up the get url"
   (concat "http://download.finance.yahoo.com/d/quotes.csv?s="
